@@ -61,17 +61,59 @@ createMouse();
 
 // move
 
+let direction = 'right';
+
 function move(){
     let snakeCoordinates = [snakeBody[0].getAttribute('posX'),snakeBody[0].getAttribute('posY')];
     snakeBody[0].classList.remove('snake-head');
     snakeBody[snakeBody.length-1].classList.remove('snake-body');
     snakeBody.pop();
+
     // else = make snake go trought wall
-    if(snakeCoordinates[0]<10){
+    if(direction == 'right'){
+       if(snakeCoordinates[0]<10){
         snakeBody.unshift(document.querySelector('[posX = "' + (+snakeCoordinates[0]+1) + '"][posY = "' + snakeCoordinates[1] + '"]'));
-    } else {
-        snakeBody.unshift(document.querySelector('[posX = "' + 1 + '"][posY = "' + snakeCoordinates[1] + '"]'));
-    }
+        } else {
+         snakeBody.unshift(document.querySelector('[posX = "' + 1 + '"][posY = "' + snakeCoordinates[1] + '"]'));
+        } 
+    } else if(direction == 'left'){
+        if(snakeCoordinates[0]>1){
+         snakeBody.unshift(document.querySelector('[posX = "' + (+snakeCoordinates[0]-1) + '"][posY = "' + snakeCoordinates[1] + '"]'));
+         } else {
+          snakeBody.unshift(document.querySelector('[posX = "' + 10 + '"][posY = "' + snakeCoordinates[1] + '"]'));
+         } 
+     }
+     else if(direction == 'up'){
+        if(snakeCoordinates[1]<10){
+         snakeBody.unshift(document.querySelector('[posX = "' + snakeCoordinates[0] + '"][posY = "' + (+snakeCoordinates[1]+1) + '"]'));
+         } else {
+          snakeBody.unshift(document.querySelector('[posX = "' + snakeCoordinates[0] + '"][posY = "' + 1 + '"]'));
+         } 
+     }
+     else if(direction == 'down'){
+        if(snakeCoordinates[1]>1){
+         snakeBody.unshift(document.querySelector('[posX = "' + snakeCoordinates[0] + '"][posY = "' + (+snakeCoordinates[1]-1) + '"]'));
+         } else {
+          snakeBody.unshift(document.querySelector('[posX = "' + snakeCoordinates[0] + '"][posY = "' + 10 + '"]'));
+         } 
+     }
+    
+     if(snakeBody[0].getAttribute('posX') == mouse.getAttribute('posX') && snakeBody[0].getAttribute('posY') == mouse.getAttribute('posY')){
+         mouse.classList.remove('mouse');
+         createMouse();
+         score += 10;
+         input.value = `Ты набрал ${score} очков`;
+         let a = snakeBody[snakeBody.length-1].getAttribute('posX');
+         let b = snakeBody[snakeBody.length-1].getAttribute('posY');
+         snakeBody.push(document.querySelector('[posX = "' + a + '"][posY = "' + b + '"]'));
+         
+     }
+
+     // end of game
+     if(snakeBody[0].classList.contains('snake-body')){
+         alert('YoU LooS3r!!!');
+         clearInterval(speed);
+     }
 
     snakeBody[0].classList.add('snake-head');
     for(let i=0; i<snakeBody.length; i++){
@@ -81,7 +123,7 @@ function move(){
 }
 let speed = setInterval(move, 300);
 
-//
+// pressing rowKeys
 window.addEventListener('keydown', function(e){
     if(e.keyCode == 37 && direction != 'right'){
         direction = 'left';
@@ -96,3 +138,16 @@ window.addEventListener('keydown', function(e){
         direction = 'down';
     }
 })
+
+
+// count
+let input = document.createElement('input');
+document.body.appendChild(input);
+input.style.cssText = `
+margin: auto;
+margin-top: 0px;
+font-size: 30px;
+display: block;
+`;
+let score = 0;
+input.value = `Ты набрал ${score} очков`;
