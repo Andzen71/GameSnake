@@ -1,0 +1,32 @@
+body{
+	background-color: rgb(250,60,0);;
+	color: rgb(250,60,0); 
+}
+.field{
+	width: 600px;
+	height: 600px;
+	margin: 20px auto;
+	background-color: #000;
+	display: flex;
+	flex-wrap: wrap;
+}
+.excel{
+	width: 58px;
+	height: 58px;
+	border: 1px solid yellow;
+	background-color: #fff;
+}
+.snake-body{
+	background: no-repeat center/50px url(../img/rainbow.png);
+	background-size: cover;
+	background-color: green;
+}
+.snake-head{
+	background: url(../img/69head.png);
+	background-size: cover;
+	background-color: red;
+}
+.mouse{
+	background: url(../img/bloods.jpg);
+	background-size: cover;
+}
